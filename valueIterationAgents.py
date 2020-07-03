@@ -209,7 +209,7 @@ class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
 
         states = self.mdp.getStates()
 
-        for state in states: #self.mdp.getStates()
+        for state in states: 
             isTerminal = self.mdp.isTerminal(state)
 
             if not isTerminal:
@@ -221,8 +221,7 @@ class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
                             history[nextState].add(state)
                         else:
                             history[nextState] = {state}
-
-        #self.mdp.getStates()
+        
         for state in states: 
             if not self.mdp.isTerminal(state):
                 val_list = []

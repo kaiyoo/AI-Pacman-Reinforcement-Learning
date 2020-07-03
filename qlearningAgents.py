@@ -65,16 +65,17 @@ class QLearningAgent(ReinforcementAgent):
         """
         "*** YOUR CODE HERE ***"
         #util.raiseNotDefined()
-        legalActions = self.getLegalActions(state)
+        legal_actions = self.getLegalActions(state)
 
-        if len(legalActions) == 0:
+        if len(legal_actions) == 0:
             return 0.0
 
         counter = util.Counter()
-        for action in legalActions:
+        for action in legal_actions:
             counter[action] = self.getQValue(state, action)
 
-        return counter[counter.argMax()] 
+        max_val = counter.argMax()
+        return counter[max_val] 
 
     def computeActionFromQValues(self, state):
         """
@@ -83,11 +84,11 @@ class QLearningAgent(ReinforcementAgent):
           you should return None.
         """
         "*** YOUR CODE HERE ***"
-        actions = self.getLegalActions(state)
+        legal_actions = self.getLegalActions(state)
         best_action = None
         max_val = float('-inf')
 
-        for action in actions:
+        for action in legal_actions:
             q_val = self.q_val[state, action]
             if max_val < q_val:
                 max_val = q_val
@@ -108,16 +109,17 @@ class QLearningAgent(ReinforcementAgent):
           HINT: To pick randomly from a list, use random.choice(list)
         """
         # Pick Action
-        legalActions = self.getLegalActions(state)
+        legal_actions = self.getLegalActions(state)
         action = None
         
         "*** YOUR CODE HERE ***"
-        if not legalActions:
+        if not legal_actions:
             return action
 
-        explore = util.flipCoin(self.epsilon)        
+        explore = util.flipCoin(self.epsilon)  
+
         if explore:
-            action = random.choice(legalActions)
+            action = random.choice(legal_actions)
         else:
             action = self.computeActionFromQValues(state)
         #util.raiseNotDefined()
@@ -206,13 +208,13 @@ class ApproximateQAgent(PacmanQAgent):
           where * is the dotProduct operator
         """
         "*** YOUR CODE HERE ***"
-        total = 0
+        val_sum = 0
         features = self.featExtractor.getFeatures(state, action)
         
         for i in features:
-            total += self.weights[i]*features[i]
+            val_sum += self.weights[i]*features[i]
 
-        return total
+        return val_sum
 
         #util.raiseNotDefined()
 
